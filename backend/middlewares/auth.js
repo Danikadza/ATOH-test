@@ -1,6 +1,11 @@
+const jwt = require('jsonwebtoken')
+
+const tokenKey = '1a2b-3c4d-5e6f-7g8h';
+
 const authSessionChecker = (req, res, next) => {
-    console.log(`Session Checker: ${req.session.id}`);
-    if (req.session.recover) {
+    const decoded = jwt.verify(req.headers['authorization'],tokenKey)
+    console.log(decoded);
+    if (decoded) {
       console.log(`Found User Session`);
       next();
     } else {

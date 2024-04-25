@@ -1,9 +1,10 @@
 const express = require('express');
-const { getAllUserClients, changeStatus} = require("./controllers");
+const { authSessionChecker } = require("../../middlewares/auth");
+const { getAllUserClients, changeStatus } = require("./controllers");
 
 const router = express.Router();
 
-router.get('/:user', getAllUserClients);
-router.post('/', changeStatus);
+router.get('/', authSessionChecker, getAllUserClients);
+router.post('/', authSessionChecker, changeStatus);
 
 module.exports = router;

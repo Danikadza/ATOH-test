@@ -28,7 +28,7 @@ WHERE
 
 const getAllUserClients = async (req, res) => {
     try {
-        const { user } = req.params;
+        const { user } = req.query;
         const clients = await getClientsQuery(req.ydbSession, user)
         res.send(clients)
     } catch (err) {

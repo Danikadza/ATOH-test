@@ -11,18 +11,16 @@ async function getClientsQuery(session, {AccountNumber, Status}) {
     `;
 
     const preparedQuery = await session.prepareQuery(query);
-    const { resultSets } = await session.executeQuery(preparedQuery, {
+    await session.executeQuery(preparedQuery, {
         $status: TypedValues.utf8(Status),
         $accountNumber: TypedValues.uint64(AccountNumber),
     });
-    return Clients.createNativeObjects(resultSets[0])
 }
 
 const changeStatus = async (req, res) => {
     try {
         const data = req.body;
-        const clients = await getClientsQuery(req.ydbSession, data)
-        return res.send(clients)
+        await getClientsQuery(req.ydbSession, data)
     } catch (err) {
         console.error(err, '/clients')
         res.status(400).send('Smth went wrong')

@@ -2,11 +2,10 @@
 FROM node:21-alpine3.18
 
 # Set environment variables
-ENV PORT=3035
+ENV PORT=80
 ENV AUTH_MESSAGE=TEST_MESSAGE
 ENV COOKIE_SECRET=TEST_MESSAGE
 ENV ALCHEMY_API=https://eth-mainnet.g.alchemy.com/v2/RbdduC_cruYpNOyOTL_UkPx_zF1nWpPt
-ENV YDB_ACCESS_TOKEN_CREDENTIALS=t1.9euelZqQzZqKzsiQiZyLyJyclcqczO3rnpWanpKeypCPmo2LzYuTmY2Mmszl8_cSVnFO-e8qfBYB_d3z91IEb0757yp8FgH9zef1656VmpbHy87KmJWLisqaz8mWjpib7_zF656VmpbHy87KmJWLisqaz8mWjpib.1D7HXpw_g2ilT49FRVo3M6YVNCpXhkO8VaKgnxsJMMm_-oaa4o3pJujKCIVuBbvZL1YMbx3_J65LyzeovnJJAQ
 ENV DB_ENDPOINT=grpcs://ydb.serverless.yandexcloud.net:2135
 ENV DB_DATABASE=/ru-central1/b1g0cfljqmgf39jti7fi/etngehjqikhprifr0mav
 ENV NODE_ENV=dev
@@ -30,5 +29,6 @@ EXPOSE $PORT
 CMD ["node", "index.js"]
 
 #docker build -t atoh_test .
-#docker tag atoh_test cr.yandex/crplgbno215vvun04648/atoh_test:latest
-#docker push cr.yandex/crplgbno215vvun04648/atoh_test:latest
+#docker tag atoh_test cr.yandex/crpr5fcurr9ru0segpnc/atoh_test:latest
+#docker push cr.yandex/crpr5fcurr9ru0segpnc/atoh_test:latest
+#ENV YDB_ACCESS_TOKEN_CREDENTIALS=t1.9euelZqQzZqKzsiQiZyLyJyclcqczO3rnpWanpKeypCPmo2LzYuTmY2Mmszl8_cSVnFO-e8qfBYB_d3z91IEb0757yp8FgH9zef1656VmpbHy87KmJWLisqaz8mWjpib7_zF656VmpbHy87KmJWLisqaz8mWjpib.1D7HXpw_g2ilT49FRVo3M6YVNCpXhkO8VaKgnxsJMMm_-oaa4o3pJujKCIVuBbvZL1YMbx3_J65LyzeovnJJAQ
