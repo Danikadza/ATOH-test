@@ -1,5 +1,5 @@
 const { Users } = require("./typedData");
-const {TypedValues} = require("ydb-sdk");
+const { TypedValues } = require("ydb-sdk");
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken')
 
@@ -18,7 +18,7 @@ const authUser = async (req, res) => {
 
         const preparedQuery = await req.ydbSession.prepareQuery(query);
 
-        const {resultSets} = await req.ydbSession.executeQuery(preparedQuery, {
+        const { resultSets } = await req.ydbSession.executeQuery(preparedQuery, {
             "$login": TypedValues.utf8(req.body.login),
         });
 
@@ -27,13 +27,27 @@ const authUser = async (req, res) => {
         const areSame = await bcrypt.compare(req.body.password, userData[0].password)
 
         if (areSame) {
-            const token = jwt.sign({ id: userData[0].id }, tokenKey)
-            
+            const accessTokenExpires = 60 * 15 ;
+            const refreshTokenExpires = 60 * 60 * 24
+
+            const accessToken = jwt.sign({ id: userData[0].id }, tokenKey, { expiresIn: accessTokenExpires })
+            const refreshToken = jwt.sign({ id: userData[0].id }, tokenKey, { expiresIn: refreshTokenExpires })
+
+            const decodedAccessToken = jwt.decode(accessToken)
+            const decodedRefreshToken = jwt.decode(refreshToken)
+
+
+            const accessTokenExpiresAt = decodedAccessToken.exp * 1000
+            const refreshTokenExpiresAt = decodedRefreshToken.exp * 1000
+
             return res.status(200).json({
                 id: userData[0].id,
                 login: userData[0].login,
                 FullName: userData[0].FullName,
-                token: token,
+                accessToken: accessToken,
+                refreshToken: refreshToken,
+                accessTokenExpiresAt: accessTokenExpiresAt,
+                refreshTokenExpiresAt: refreshTokenExpiresAt
             });
         } else {
             return res.status(404).json({ message: 'User not found' });

@@ -4,7 +4,6 @@ const tokenKey = '1a2b-3c4d-5e6f-7g8h';
 
 const authSessionChecker = (req, res, next) => {
     const decoded = jwt.verify(req.headers['authorization'],tokenKey)
-    console.log(decoded);
     if (decoded) {
       console.log(`Found User Session`);
       next();
